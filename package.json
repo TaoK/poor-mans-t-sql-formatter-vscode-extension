@@ -1,34 +1,194 @@
 {
-    "name": "poor-mans-t-sql-formatter",
-    "displayName": "Poor Man's T-SQL Formatter",
-    "description": "A Visual Studio Code extension for Poor Man's T-SQL Formatter",
-    "version": "1.6.6",
-    "publisher": "TaoKlerks",
-    "engines": {
-        "vscode": ">=1.0.0 <2.0.0"
-    },
-    "categories": [
-        "Other"
+  "name": "poor-mans-t-sql-formatter-vscode",
+  "displayName": "Poor Man's T-SQL Formatter",
+  "description": "A Visual Studio Code extension for Poor Man's T-SQL Formatter",
+  "version": "1.6.6",
+  "publisher": "TaoKlerks",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:poor-mans-t-sql-formatter.formatSql"
+  ],
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/TaoK/poor-mans-t-sql-formatter-vscode-extension/issues"
+  },
+  "homepage": "https://github.com/TaoK/poor-mans-t-sql-formatter-vscode-extension",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TaoK/poor-mans-t-sql-formatter-vscode-extension.git"
+  },
+  "main": "./extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "poor-mans-t-sql-formatter.formatSql",
+        "title": "Format SQL"
+      }
     ],
-    "activationEvents": [
-        "onCommand:extension.sayHello"
-    ],
-    "main": "./extension",
-    "contributes": {
-        "commands": [{
-            "command": "extension.sayHello",
-            "title": "Hello World"
-        }]
+    "menus": {
+      "commandPalette": [{
+        "command": "poor-mans-t-sql-formatter.formatSql",
+        "when": "editorFocus"
+      }],
+      "editor/context": [{
+          "when": "editorFocus && resourceLangId == sql",
+          "command": "poor-mans-t-sql-formatter.formatSql",
+          "group": "1_modification"
+      }],
+      "editor/title/context": [{
+          "when": "editorFocus && resourceLangId == sql",
+          "command": "poor-mans-t-sql-formatter.formatSql"
+      }],
+      "explorer/context": [{
+          "when": "editorFocus && resourceLangId == sql",
+          "command": "poor-mans-t-sql-formatter.formatSql"
+      }]
     },
-    "scripts": {
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
+    "keybindings": {
+      "command": "poor-mans-t-sql-formatter.formatSql",
+      "key": "ctrl+k shift+f",
+      "when": "editorTextFocus"
     },
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "eslint": "^4.6.1",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+    "configuration": {
+      "type": "object",
+      "title": "Poor Man's SQL Formatting",
+      "properties": {
+        "poor-mans-t-sql-formatter.confirmOnError": {
+          "type": "boolean",
+          "default": true,
+          "description": "If errors were encountered when parsing the SQL (and so the formatting is suspect) - should the formatter request confirmation before replacing the selected text with the formatted result?"
+        },
+        "poor-mans-t-sql-formatter.expectedLanguages": {
+          "type": "array",
+          "default": ["sql", "plaintext"],
+          "description": "If the programming language for the current Edit Window does not match one of these languages, then the formatter will request confirmation before formatting. Default expects SQL files or files with no detected/specified language (plaintext). Asterisk (*) to allow any language."
+        },
+        "poor-mans-t-sql-formatter.errorOutputPrefix": {
+          "type": "string",
+          "default": "--WARNING! ERRORS ENCOUNTERED DURING SQL PARSING!\n",
+          "description": "Text to be included (in a comment at the top) if parsing failed and result is therefore suspect"
+        },
+        "poor-mans-t-sql-formatter.formattingType": {
+          "type": "string",
+          "default": "standard",
+          "description": "What kind of formatting to do - 'standard' or 'obfuscation'",
+          "enum": ["standard", "obfuscation"]
+        },
+        "poor-mans-t-sql-formatter.std.indent": {
+          "type": "string",
+          "default": "\\t",
+          "description": "The unit of indentation - typically a tab (\\t) or a number of spaces"
+        },
+        "poor-mans-t-sql-formatter.std.spacesPerTab": {
+          "type": "number",
+          "default": 4,
+          "description": "This is used to measure line length, and only applies if you use tabs"
+        },
+        "poor-mans-t-sql-formatter.std.maxLineWidth": {
+          "type": "number",
+          "default": 999,
+          "description": "Request that the formatter wrap long lines to avoid exceeding this line length"
+        },
+        "poor-mans-t-sql-formatter.std.statementBreaks": {
+          "type": "number",
+          "default": 2,
+          "description": "How many linebreaks should be added when starting a new statement?"
+        },
+        "poor-mans-t-sql-formatter.std.clauseBreaks": {
+          "type": "number",
+          "default": 1,
+          "description": "How many linebreaks should be added when starting a new clause within a statement?"
+        },
+        "poor-mans-t-sql-formatter.std.expandCommaLists": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should comma-delimited lists (columns, group by args, etc) be broken out onto new lines?"
+        },
+        "poor-mans-t-sql-formatter.std.trailingCommas": {
+          "type": "boolean",
+          "default": true,
+          "description": "When starting a new line because of a comma, should the comma be at the end of line (VS the start of the next)?"
+        },
+        "poor-mans-t-sql-formatter.std.spaceAfterExpandedComma": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should a space be added after the comma? (typically not if they are 'trailing')"
+        },
+        "poor-mans-t-sql-formatter.std.expandBooleanExpressions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should boolean operators (AND, OR) cause a linebreak?"
+        },
+        "poor-mans-t-sql-formatter.std.expandCaseStatements": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should CASE expressions have their WHEN and THEN expressions be broken out on new lines?"
+        },
+        "poor-mans-t-sql-formatter.std.expandBetweenConditions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should BETWEEN expressions have the max argument broken out on a new line?"
+        },
+        "poor-mans-t-sql-formatter.std.expandInLists": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should IN() lists have each argument on a new line?"
+        },
+        "poor-mans-t-sql-formatter.std.breakJoinOnSections": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should the ON section of a JOIN clause be broken out onto its own line?"
+        },
+        "poor-mans-t-sql-formatter.std.uppercaseKeywords": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should T-SQL keywords (like SELECT, FROM) be automatically uppercased?"
+        },
+        "poor-mans-t-sql-formatter.std.keywordStandardization": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should less-common T-SQL keywords be replaced with their standard counterparts? (NOTE: only safe for T-SQL!)"
+        },
+        "poor-mans-t-sql-formatter.min.randomizeKeywordCase": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should the case of keywords be randomized, to minimize legibility?"
+        },
+        "poor-mans-t-sql-formatter.min.randomizeLineLengths": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should the SQL be wrapped at arbitrary intervals, to minimize legibility?"
+        },
+        "poor-mans-t-sql-formatter.min.preserveComments": {
+          "type": "boolean",
+          "default": true,
+          "description": "Should comments in the code be retained (vs being stripped out)?"
+        },
+        "poor-mans-t-sql-formatter.min.enableKeywordSubstitution": {
+          "type": "boolean",
+          "default": false,
+          "description": "Should keywords with synonyms use less common forms? (NOTE: only safe for T-SQL!)"
+        }
+      }
     }
+  },
+  "scripts": {
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.6",
+    "eslint": "^4.6.1",
+    "@types/node": "^7.0.43",
+    "@types/mocha": "^2.2.42"
+  },
+  "dependencies": {
+    "poor-mans-t-sql-formatter": "1.6.5"
+  }
 }
