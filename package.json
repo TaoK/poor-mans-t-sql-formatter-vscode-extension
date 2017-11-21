@@ -2,7 +2,7 @@
   "name": "poor-mans-t-sql-formatter-vscode",
   "displayName": "Poor Man's T-SQL Formatter",
   "description": "A Visual Studio Code extension for Poor Man's T-SQL Formatter",
-  "version": "1.6.6",
+  "version": "1.6.10",
   "publisher": "TaoKlerks",
   "engines": {
     "vscode": "^1.0.0"
@@ -189,6 +189,6 @@
     "@types/mocha": "^2.2.42"
   },
   "dependencies": {
-    "poor-mans-t-sql-formatter": "1.6.5"
+    "poor-mans-t-sql-formatter": "1.6.10"
   }
 }

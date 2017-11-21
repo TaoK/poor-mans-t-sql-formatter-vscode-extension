@@ -6,6 +6,14 @@ The intent is to follow the structure lais out at [Keep a Changelog](http://keep
 
 ## [Unreleased]
 
+## [1.6.10] - 2017-11-21
+
+- Upstream fixes:
+    - Fixed rare negative exponent problem, GitHub issue #142
+    - Fixed "name" keyword detection issue, as per GitHub pull request #141
+    - Fixed recently-introduced issue with "noformat" regions, GitHub Issue #182
+    - Fixed longstanding formatting consistency issues with noformat and minimize, GitHub issues #183, #184, #185
+
 ## [1.6.6] - 2017-11-19
 
 - Initial release
