@@ -12,6 +12,10 @@ This formatter has the same features under Visual Studio Code as it has under ot
 
 (list to be added - see homepage at http://architectshack.com/PoorMansTSqlFormatter.ashx)
 
+## Use
+
+The default keybinding is "ctrl+k shift+f". This can be set/overriddein in the VS Code keybinding settings UI in the normal way.
+
 ### Extension Settings
 
 The formatter exposes the same settings as in other IDEs / integrations, these can be located and set/overridden in the VS Code settings UI in the normal way.
