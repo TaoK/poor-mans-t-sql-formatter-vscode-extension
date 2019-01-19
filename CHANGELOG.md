@@ -6,6 +6,11 @@ The intent is to follow the structure lais out at [Keep a Changelog](http://keep
 
 ## [Unreleased]
 
+
+## [1.6.11] - 2019-01-19
+
+- Added support for Azure Data Studio
+
 ## [1.6.10] - 2017-11-21
 
 - Upstream fixes:

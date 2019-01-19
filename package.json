@@ -1,11 +1,12 @@
 {
   "name": "poor-mans-t-sql-formatter-vscode",
   "displayName": "Poor Man's T-SQL Formatter",
-  "description": "A Visual Studio Code extension for Poor Man's T-SQL Formatter",
-  "version": "1.6.10",
+  "description": "A Visual Studio Code and Azure Data Studio extension for Poor Man's T-SQL Formatter",
+  "version": "1.6.11",
   "publisher": "TaoKlerks",
   "engines": {
-    "vscode": "^1.0.0"
+    "vscode": "^1.0.0",
+    "sqlops": "^0.29.0"
   },
   "categories": [
     "Other"
