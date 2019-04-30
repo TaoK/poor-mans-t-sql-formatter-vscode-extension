@@ -39,8 +39,9 @@ function collectOptions(extensionOptions) {
 
 var commandDisposable;
 
-function activate(context) {
-  commandDisposable = vscode.commands.registerCommand('poor-mans-t-sql-formatter.formatSql', () => {
+function activate(context) {	
+  
+  var EditText = () => {
     let editor = vscode.window.activeTextEditor;
     let doc = editor.document;
 
@@ -103,8 +104,21 @@ function activate(context) {
         }
       });
     }).catch(e => {console.log(e); throw e;});
-  });
+  };
 
+  
+	var fmtProv = vscode.languages.registerDocumentFormattingEditProvider( { language: 'sql' }, {
+        provideDocumentFormattingEdits: function( document )
+        {
+			return EditText();
+        }
+    } );
+	
+	context.subscriptions.push(fmtProv);
+	
+  
+  commandDisposable = vscode.commands.registerCommand('poor-mans-t-sql-formatter.formatSql', EditText);
+  
   context.subscriptions.push(commandDisposable);
 }
 exports.activate = activate;
