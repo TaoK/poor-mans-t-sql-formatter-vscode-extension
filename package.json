@@ -12,7 +12,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:poor-mans-t-sql-formatter.formatSql"
+    "onCommand:poor-mans-t-sql-formatter.formatSql",
+    "onLanguage:sql"
   ],
   "license": "AGPL-3.0",
   "bugs": {
